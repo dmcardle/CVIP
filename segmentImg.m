@@ -59,6 +59,7 @@ function idx = segmentImg(I, k)
     idx = reshape(idx, rows, cols);
     
     imshow(idx, [])
+
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %                                                                     %

@@ -55,8 +55,6 @@ function idx = KMeansClustering(X, k, centers)
     % current cluster assignments.
     MAX_ITER = 100;
     
-    h = waitbar(0);
-    
     while true        
         % Store old cluster assignments
         old_idx = idx;
@@ -68,19 +66,19 @@ function idx = KMeansClustering(X, k, centers)
         %                            YOUR CODE HERE                           %
         %                                                                     %
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       
-        waitbar(iter/ MAX_ITER, h);
         
-        for i = 1:m
-            p = X(i,:);
-            pRep = repmat(p, [k 1]); % [p; p; ... ; p] (k times)
+        %for i = 1:m
+        %    p = X(i,:);
+        %    pRep = repmat(p, [k 1]); % [p; p; ... ; p] (k times)
             
-            dSqrd = sum((centers - pRep).^2, 2);
-            [minVal, minIndex] = min(dSqrd);
+        %    dSqrd = sum((centers - pRep).^2, 2);
+        %    [minVal, minIndex] = min(dSqrd);
             
             % assign point i to cluster minIndex
-            idx(i) = minIndex;
-        end
+        %    idx(i) = minIndex;
+        %end
+        
+        idx = knnsearch(centers, X);
         
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %                                                                     %
