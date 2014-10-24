@@ -55,8 +55,11 @@
     linkcolor=blue,          % color of internal links (change box color with linkbordercolor)
     citecolor=green,        % color of links to bibliography
     filecolor=magenta,      % color of file links
-    urlcolor=cyan           % color of external links
+    urlcolor=blue           % color of external links
 }
+\usepackage[ampersand]{easylist}
+
+
 
 \pagestyle{fancy}
 \lhead{Daniel McArdle}
@@ -77,58 +80,104 @@ CSE 573: Computer Vision}
 
 \section{Implementation}
 
+\begin{enumerate}[(i)]
+\item
+
 My implementation of \texttt{segmentImg} begins by using the given \texttt{makeLMfilters} function to create the LM filter bank.  For each filter, we save the response as a layer in a 3D matrix. Next, we compute the \texttt{X} matrix, which has \texttt{rows*cols} rows and \texttt{num\_filters} columns.  In other words, each pixel has a column and each row entry represents the filter response for that pixel.
 
-Next, we perform K-Means Clustering on the \texttt{X} matrix.  \textit{Note: I implemented my own K-Means Clustering algorithm.} Initially, my implementation was very slow because, for each point, we were finding the closest center with a nested loop.  I was able to greatly improve the speed by using \href{http://www.mathworks.com/help/stats/knnsearch.html?refresh=true}{knnsearch}, a function from the Statistics toolbox.
+Next, we perform K-Means Clustering on the \texttt{X} matrix.  \textit{Note: I implemented my own K-Means Clustering algorithm.} Initially, my implementation was very slow because I was finding the closest center for each point with a loop.  I was able to greatly improve the speed by replacing the loop with a call to \href{http://www.mathworks.com/help/stats/knnsearch.html?refresh=true}{\texttt{knnsearch}}, a function from the Statistics toolbox.
 
-There are a number of problems with the output of this implementation.  The biggest issue is that the segmented regions have many holes in them.  For example, the cheetah has some large holes in its face.  This could be because the K-Means Clustering algorithm does not take spatial proximity into account, only similarity of filter responses.
+There are a number of artifacts in the segmentations.  The biggest issue is that the segmented regions have many holes in them.  For example, the cheetah has some large holes in its face.  This could be because the K-Means Clustering algorithm does not take spatial proximity into account, only similarity of filter responses.
+
+The biggest limitation of the algorithm is that it does not perform automatic foreground/background discrimination.  The user must manually select which clusters correspond to foreground.
+
+\item \textit{I implemented my own K-Means Clustering algorithm.} 
+
+\item Results (see next section)
+
+\item
+Spatial proximity is a very important cue to proper segmentation.  This algorithm totally ignores this cue, which can give some very strange results.   By treating the $(x,y)$ coordinates of each pixel as though they were filter responses, the K-Means Clustering algorithm would take location into account while clustering. This would still not be ideal, since a strong similarity in the results of other filters would still lead to features with great distance between them being clustered.
+
+Another cue that is obvious to humans is color.  The algorithm converts to grayscale before applying the filter bank, which removes a potential source of information.  This leads to bad results quite spectacularly when the cheetah's grassy background is clustered into the same segment as the cheetah's head.
+
+
+\end{enumerate}
 
 
 \section{Results}
 
-\subsection{Segmented Animals}
+\subsection*{Segmented Animals}
 
 \begin{figure}[H]
 	\begin{subfigure}[b]{0.48\textwidth}
-        \includegraphics[width=\textwidth]{../output/cheetah4.png}
+        \includegraphics[width=\textwidth]{../output/cheetah4_cropped.png}
         \caption{Cheetah Segmentation with $k=8$}
         \label{fig:CheetahSeg}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.48\textwidth}
-        \includegraphics[width=\textwidth]{../output/gecko4.png}
+        \includegraphics[width=\textwidth]{../output/gecko4_cropped.png}
         \caption{Gecko Segmentation with $k=6$}
         \label{fig:DogSeg}
 	\end{subfigure}
 \end{figure}
 
-\subsection{Transferred Foregrounds}
+\subsection*{Original vs. Transferred Foreground}
 
 \begin{figure}[H]
-	\begin{subfigure}[b]{0.9\textwidth}
-        \includegraphics[width=\textwidth]{../output/cheetah1.png}
-        \caption{Cheetah}
+	\begin{subfigure}[b]{0.46\textwidth}
+        \includegraphics[width=\textwidth]{../images/cheetah.jpg}
+        \caption{Original Cheetah}
         \label{fig:Cheetah}
 	\end{subfigure}
-	
-	\begin{subfigure}[b]{0.9\textwidth}
-        \includegraphics[width=\textwidth]{../output/dog22.png}
-        \caption{Dog}
+	\begin{subfigure}[b]{0.54\textwidth}
+        \includegraphics[width=\textwidth]{../output/cheetah2.png}
+        \caption{Transferred Cheetah ($k=8$)}
+        \label{fig:CheetahTrans}
+	\end{subfigure}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{subfigure}[b]{0.256\textwidth}
+        \includegraphics[width=\textwidth]{../images/dog.jpg}
+        \caption{Original Dog}
         \label{fig:Dog}
 	\end{subfigure}
+	\begin{subfigure}[b]{0.7\textwidth}
+        \includegraphics[width=\textwidth]{../output/dog23.png}
+        \caption{Transferred Dog ($k=5$)}
+        \label{fig:DogTrans}
+	\end{subfigure}
+\end{figure}
 
-	\begin{subfigure}[b]{0.9\textwidth}
-        \includegraphics[width=\textwidth]{../output/gecko2_k=5.png}
-        \caption{Gecko}
+\begin{figure}[H]
+	\begin{subfigure}[b]{0.51\textwidth}
+        \includegraphics[width=\textwidth]{../images/gecko.jpg}
+        \caption{Original Gecko}
         \label{fig:Gecko}
 	\end{subfigure}
-	
-	\begin{subfigure}[b]{0.9\textwidth}
-        \includegraphics[width=\textwidth]{../output/zebra3_k=4.png}
-        \caption{Zebra}
+	\begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../output/gecko1.png}
+        \caption{Transferred Gecko ($k=6$)}
+        \label{fig:GeckoTrans}
+	\end{subfigure}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{../images/zebra.jpg}
+        \caption{Original Zebra}
         \label{fig:Zebra}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.55\textwidth}
+        \includegraphics[width=\textwidth]{../output/zebra2_k=4.png}
+        \caption{Transferred Zebra ($k=5$)}
+        \label{fig:ZebraTrans}
 	\end{subfigure}
 \end{figure}
 
 
 
+
+
 \end{document}
+
