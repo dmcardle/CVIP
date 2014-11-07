@@ -5,6 +5,8 @@
 im1 = imread('Data/view1.png');
 im2 = imread('Data/view5.png');
 
+im1 = imresize(im1, 1/2);
+im2 = imresize(im2, 1/2);
 
 if (size(im1) ~= size(im2))
     error('Images must be the same size');
@@ -13,8 +15,11 @@ end
 [rows, cols, layers] = size(im1);
 disparityMap = zeros( rows, cols );
 
-blocksize = 10;
-max_offset = 10;
+blocksize = 5;
+max_offset = 20;
+
+block1 = zeros([blocksize, blocksize, 3]);
+block2 = zeros([blocksize, blocksize, 3]);
 
 for r=1:rows
     
@@ -28,7 +33,6 @@ for r=1:rows
         % r, c are in terms of pixels
         % convert to be in terms of blocks
         
-
         if (r+blocksize > rows || c + blocksize > cols)
             continue
         end
@@ -41,7 +45,6 @@ for r=1:rows
         % range defined by max_offset.
         bestSsd = Inf;
         bestOffset = [Inf, Inf];
-        
         for deltaR = -max_offset:max_offset
             for deltaC = -max_offset:max_offset
 
