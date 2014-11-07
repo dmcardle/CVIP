@@ -5,9 +5,6 @@
 im1 = imread('Data/view1.png');
 im2 = imread('Data/view5.png');
 
-im1 = imresize(im1, 1/2);
-im2 = imresize(im2, 1/2);
-
 if (size(im1) ~= size(im2))
     error('Images must be the same size');
 end
@@ -15,8 +12,8 @@ end
 [rows, cols, layers] = size(im1);
 disparityMap = zeros( rows, cols );
 
-blocksize = 5;
-max_offset = 20;
+blocksize = 10;
+max_offset = 50;
 
 block1 = zeros([blocksize, blocksize, 3]);
 block2 = zeros([blocksize, blocksize, 3]);
@@ -45,7 +42,9 @@ for r=1:rows
         % range defined by max_offset.
         bestSsd = Inf;
         bestOffset = [Inf, Inf];
-        for deltaR = -max_offset:max_offset
+        
+        deltaR = 0;
+        %for deltaR = -max_offset:max_offset
             for deltaC = -max_offset:max_offset
 
                 %fprintf('r = %d, c = %d, dR = %d, dC = %d\n', r, c, deltaR, deltaC);
@@ -55,7 +54,6 @@ for r=1:rows
                 % attempting to
                 if ~(r+deltaR >= 1 && c+deltaC >= 1 ...
                    && (r+deltaR+blocksize <= rows && c+deltaC+blocksize <= cols))
-               
                     continue
                 end
                
@@ -72,7 +70,7 @@ for r=1:rows
                 end
 
             end
-        end
+        %end
 
         % Compute this point's disparity value based on the best offset.
         disparityValue = sqrt(sum(bestOffset.^2));
