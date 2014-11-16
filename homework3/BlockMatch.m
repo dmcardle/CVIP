@@ -1,110 +1,123 @@
-
+function [disparityMap,err] = BlockMatch(im1, im2, grnd, blocksize, bDraw)
 %Write a script that processes stereo image pair to generate disparity map
 %using basic block matching
 
-im1 = imread('Data/view1.png');
-im2 = imread('Data/view5.png');
+%im1 = imread('Data/view1.png');
+%im2 = imread('Data/view5.png');
+%blocksize = 10;
+%max_offset = 50;
+
+if bDraw
+figure;
+    hIm1 = subplot(2,2,1); imshow(im1);
+    hIm2 = subplot(2,2,2); imshow(im2);
+    hIm3 = subplot(2,2,3);
+    hIm4 = subplot(2,2,4);
+end
+
+if (mod(blocksize,2) ~= 0)
+    error('Input `blocksize` must be even');
+end
+
+halfblocksize = round(blocksize/2);
 
 if (size(im1) ~= size(im2))
     error('Images must be the same size');
 end
 
-[rows, cols, layers] = size(im1);
+[rows, cols, ~] = size(im1);
 disparityMap = zeros( rows, cols );
-
-blocksize = 10;
-max_offset = 50;
 
 block1 = zeros([blocksize, blocksize, 3]);
 block2 = zeros([blocksize, blocksize, 3]);
 
-for r=1:rows
+for r=halfblocksize:rows-halfblocksize
     
-    if (mod(r,3) == 0)
+    if (mod(r,20) == 0)
         % Report the current progress
         fprintf('%.2f%%\n', 100 * r / rows);
     end
     
-    for c=1:cols
+    for c=halfblocksize:cols-halfblocksize
 
         % r, c are in terms of pixels
         % convert to be in terms of blocks
         
-        if (r+blocksize > rows || c + blocksize > cols)
-            continue
-        end
-        
-        block1 = im1( r:r+blocksize, ...
-                     c:c+blocksize, ...
+        block1 = im1(r-halfblocksize+1:r+halfblocksize, ...
+                     c-halfblocksize+1:c+halfblocksize, ...
                      :);
 
         % Determine the best alignment between block1 and block2 within the
         % range defined by max_offset.
         bestSsd = Inf;
-        bestOffset = [Inf, Inf];
+        bestOffset = Inf; % value is irrelevant because it will be changed
         
-        deltaR = 0;
-        %for deltaR = -max_offset:max_offset
-            for deltaC = -max_offset:max_offset
-
-                %fprintf('r = %d, c = %d, dR = %d, dC = %d\n', r, c, deltaR, deltaC);
-                %fprintf('%d\n', c + deltaC + 1);
-                
-                % check if it will be possible to get a block before
-                % attempting to
-                if ~(r+deltaR >= 1 && c+deltaC >= 1 ...
-                   && (r+deltaR+blocksize <= rows && c+deltaC+blocksize <= cols))
-                    continue
-                end
-               
-                block2 = im2(r+deltaR:r+deltaR+blocksize, ...
-                            c+deltaC:c+deltaC+blocksize, ...
-                            :);
-
-                sd = (block1 - block2) .^ 2;
-                ssd = sum(sum(sum(sd)));
-
-                if ssd < bestSsd
-                    bestSsd = ssd;
-                    bestOffset = [deltaR, deltaC];
-                end
-
+        searchCoeff = 1/4;
+        minC2 = max(halfblocksize, int16(c - cols*searchCoeff));
+        maxC2 = min(cols-halfblocksize, int16(c + cols*searchCoeff));
+        
+        % draw rectangle on im1
+        if bDraw
+            if exist('hRect1')
+                delete(hRect1);
             end
-        %end
+            hRect1 = rectangle('Parent', hIm1, 'Position', [c r 10 10], 'FaceColor', 'r');
+            imshow(block1, 'Parent', hIm3);
+        end
+        
+        %fprintf('for r=%d, c=%d, searching range (%d,%d)\n', r, c, minC2, maxC2);
+        
+        for c2 = minC2:maxC2
 
+            
+            %fprintf('r = %d, c = %d, dR = %d, dC = %d\n', r, c, deltaR, deltaC);
+            %fprintf('%d\n', c + deltaC + 1);
+
+            block2 = im2(r-halfblocksize+1:r+halfblocksize, ...
+                        c2-halfblocksize+1:c2+halfblocksize, ...
+                        :);
+
+            if bDraw
+                if exist('hRect2')
+                    delete(hRect2);
+                end
+                hRect2 = rectangle('Parent', hIm2, 'Position', [c2 r 10 10], 'FaceColor', 'r');
+                imshow(block2, 'Parent', hIm4);
+            end
+                    
+                    
+            if bDraw
+                imshow(block2);
+                pause(0.001);
+            end
+            
+            % squared differences matrix
+            sd = (block1 - block2) .^ 2;
+            ssd = sum(sd(:));
+
+            if ssd < bestSsd
+                if bDraw
+                    fprintf('c2 - c = %d\n', c2-c);
+                end
+                bestSsd = ssd;
+                bestOffset = abs(c2 - c);
+            end
+
+        end
+        %end
+        
         % Compute this point's disparity value based on the best offset.
-        disparityValue = sqrt(sum(bestOffset.^2));
-        disparityMap(r,c) = disparityValue;
+        disparityMap(r,c) = bestOffset;
     end
 end
 
-imshow(disparityMap, []);
+if bDraw
+    imshow(disparityMap, []);
+end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+grnd = double(grnd);
+sd = (disparityMap - grnd).^2;
+err = (1 / rows*cols) * sum(sd(:));
 
 
 
