@@ -54,7 +54,7 @@ for r=halfblocksize+1:rows-halfblocksize
         bestSsd = Inf;
         bestOffset = Inf; % value is irrelevant because it will be changed
         
-        searchCoeff = 0.2;
+        searchCoeff = 0.3;
         minC2 = max(halfblocksize+1, round(c - cols*searchCoeff));
         maxC2 = min(cols-halfblocksize, round(c + cols*searchCoeff));
         
@@ -70,7 +70,7 @@ for r=halfblocksize+1:rows-halfblocksize
         %fprintf('for r=%d, c=%d, searching range (%d,%d)\n', r, c, minC2, maxC2);
         
         
-        c2Range = [c:maxC2 minC2:c-1 ];
+        c2Range = [c:maxC2 minC2:c-1];
         for c2 = c2Range
 
             
@@ -121,7 +121,7 @@ fprintf('size of grnd = %d\n', size(grnd))
 
 grnd = double(grnd);
 sd = (disparityMap - grnd).^2;
-err = (1 / rows*cols) * sum(sd(:));
+err = (1 / rows_orig*cols_orig) * sum(sd(:));
 
 
 
