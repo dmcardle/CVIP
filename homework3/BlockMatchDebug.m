@@ -14,9 +14,11 @@ temp = useim1;
 useim1 = useim2;
 useim2 = temp;
 
-blocksize = 2;
-bDraw = false;
-[disparityMap, err] = BlockMatch(useim1, useim2, useim1, blocksize, bDraw);
 
+bDraw = true;
+blocksize = 10;
+[disparityMap, err] = BlockMatch(useim1, useim2, 0, blocksize, bDraw);
+
+imshow(disparityMap, [])
 fprintf('min val = %d\n', min(disparityMap(:)));
 fprintf('max val = %d\n', max(disparityMap(:)));

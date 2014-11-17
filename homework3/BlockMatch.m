@@ -7,38 +7,40 @@ function [disparityMap,err] = BlockMatch(im1, im2, grnd, blocksize, bDraw)
 %blocksize = 10;
 %max_offset = 50;
 
+halfblocksize = round(blocksize/2);
+
+[rows_orig, cols_orig, ~] = size(im1);
+im1 = padarray(im1, [halfblocksize halfblocksize], 'replicate');
+im2 = padarray(im2, [halfblocksize halfblocksize], 'replicate');
+[rows, cols, ~] = size(im1);
+
+if (size(im1) ~= size(im2))
+    error('Images must be the same size');
+end
+
+disparityMap = zeros(rows_orig, cols_orig);
+
 if bDraw
-figure;
+    f = figure;
     hIm1 = subplot(2,2,1); imshow(im1);
     hIm2 = subplot(2,2,2); imshow(im2);
     hIm3 = subplot(2,2,3);
     hIm4 = subplot(2,2,4);
 end
 
-if (mod(blocksize,2) ~= 0)
-    error('Input `blocksize` must be even');
-end
 
-halfblocksize = round(blocksize/2);
 
-if (size(im1) ~= size(im2))
-    error('Images must be the same size');
-end
+%block1 = zeros([blocksize, blocksize, 3]);
+%block2 = zeros([blocksize, blocksize, 3]);
 
-[rows, cols, ~] = size(im1);
-disparityMap = zeros( rows, cols );
-
-block1 = zeros([blocksize, blocksize, 3]);
-block2 = zeros([blocksize, blocksize, 3]);
-
-for r=halfblocksize:rows-halfblocksize
+for r=halfblocksize+1:rows-halfblocksize
     
     if (mod(r,20) == 0)
         % Report the current progress
         fprintf('%.2f%%\n', 100 * r / rows);
     end
     
-    for c=halfblocksize:cols-halfblocksize
+    for c=halfblocksize+1:cols-halfblocksize
 
         % r, c are in terms of pixels
         % convert to be in terms of blocks
@@ -52,9 +54,9 @@ for r=halfblocksize:rows-halfblocksize
         bestSsd = Inf;
         bestOffset = Inf; % value is irrelevant because it will be changed
         
-        searchCoeff = 1/4;
-        minC2 = max(halfblocksize, int16(c - cols*searchCoeff));
-        maxC2 = min(cols-halfblocksize, int16(c + cols*searchCoeff));
+        searchCoeff = 0.3;
+        minC2 = max(halfblocksize+1, round(c - cols*searchCoeff));
+        maxC2 = min(cols-halfblocksize, round(c + cols*searchCoeff));
         
         % draw rectangle on im1
         if bDraw
@@ -83,12 +85,9 @@ for r=halfblocksize:rows-halfblocksize
                 end
                 hRect2 = rectangle('Parent', hIm2, 'Position', [c2 r 10 10], 'FaceColor', 'r');
                 imshow(block2, 'Parent', hIm4);
-            end
-                    
-                    
-            if bDraw
+
                 imshow(block2);
-                pause(0.001);
+                pause(0.0000001);
             end
             
             % squared differences matrix
@@ -107,13 +106,16 @@ for r=halfblocksize:rows-halfblocksize
         %end
         
         % Compute this point's disparity value based on the best offset.
-        disparityMap(r,c) = bestOffset;
+        disparityMap(r-halfblocksize,c-halfblocksize) = bestOffset;
     end
 end
 
 if bDraw
     imshow(disparityMap, []);
 end
+
+fprintf('size of disparity map = %d\n', size(disparityMap))
+fprintf('size of grnd = %d\n', size(grnd))
 
 grnd = double(grnd);
 sd = (disparityMap - grnd).^2;
