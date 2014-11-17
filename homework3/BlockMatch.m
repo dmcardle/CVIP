@@ -54,7 +54,7 @@ for r=halfblocksize+1:rows-halfblocksize
         bestSsd = Inf;
         bestOffset = Inf; % value is irrelevant because it will be changed
         
-        searchCoeff = 0.3;
+        searchCoeff = 0.2;
         minC2 = max(halfblocksize+1, round(c - cols*searchCoeff));
         maxC2 = min(cols-halfblocksize, round(c + cols*searchCoeff));
         
