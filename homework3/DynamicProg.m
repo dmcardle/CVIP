@@ -16,6 +16,12 @@ for r=1:rows
     C = [];
     B = {};
     
+    im1rowEdges = find(im1row == 1);
+    im2rowEdges = find(im2row == 1);
+    
+    m = size(im1rowEdges);
+    n = size(im2rowEdges);
+    
     % Per-scanline algorithm:
     for k=1:m
         for l=1:n
