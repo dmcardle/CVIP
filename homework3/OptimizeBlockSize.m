@@ -9,7 +9,7 @@ blocksizeVec = [];
 dMaps = {};
 
 startBlocksize = 14;
-endBlocksize = 14;
+endBlocksize = 16;
 stepBlocksize = 2;
 
 allBlocksizes = startBlocksize:stepBlocksize:endBlocksize;
@@ -40,7 +40,7 @@ figure
 title(sprintf('%s: MSE vs Blocksize', label))
 plot(allBlocksizes, mseVec)
 figure
-imshow(dMaps{bestBlocksize}, []);
+imshow(dMaps{idxBest}, []);
 
 
 end
