@@ -8,8 +8,8 @@ mseVec = [];
 blocksizeVec = [];
 dMaps = {};
 
-startBlocksize = 14;
-endBlocksize = 16;
+startBlocksize = 6;
+endBlocksize = 6;
 stepBlocksize = 2;
 
 allBlocksizes = startBlocksize:stepBlocksize:endBlocksize;

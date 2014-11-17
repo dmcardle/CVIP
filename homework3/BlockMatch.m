@@ -69,7 +69,9 @@ for r=halfblocksize+1:rows-halfblocksize
         
         %fprintf('for r=%d, c=%d, searching range (%d,%d)\n', r, c, minC2, maxC2);
         
-        for c2 = minC2:maxC2
+        
+        c2Range = [c:maxC2 minC2:c-1 ];
+        for c2 = c2Range
 
             
             %fprintf('r = %d, c = %d, dR = %d, dC = %d\n', r, c, deltaR, deltaC);

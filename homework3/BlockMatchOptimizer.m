@@ -4,7 +4,7 @@ grnd1 = imread('Data/disp1.png');
 grnd2 = imread('Data/disp5.png');
 
 % rescaled versions
-scalingFactor = 1/5;
+scalingFactor = 1/2;
 im1_scaled = imresize(im1, scalingFactor );
 im2_scaled = imresize(im2, scalingFactor );
 grnd1_scaled = imresize(grnd1, scalingFactor );

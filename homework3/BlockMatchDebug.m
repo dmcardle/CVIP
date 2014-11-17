@@ -15,9 +15,9 @@ useim1 = useim2;
 useim2 = temp;
 
 
-bDraw = true;
+bDraw = false;
 blocksize = 10;
-[disparityMap, err] = BlockMatch(useim1, useim2, 0, blocksize, bDraw);
+[disparityMap, err] = BlockMatch(useim2, useim1, 0, blocksize, bDraw);
 
 imshow(disparityMap, [])
 fprintf('min val = %d\n', min(disparityMap(:)));
