@@ -10,5 +10,5 @@ im2_scaled = imresize(im2, scalingFactor );
 grnd1_scaled = imresize(grnd1, scalingFactor );
 grnd2_scaled = imresize(grnd2, scalingFactor );
 
-OptimizeBlockSize('1vs2', im1_scaled, im2_scaled, grnd1_scaled);
-%OptimizeBlockSize('1vs2', im1, im2, grnd1);
+%OptimizeBlockSize('1vs2', im1_scaled, im2_scaled, grnd1_scaled, 10, 2, 10);
+OptimizeBlockSize('1vs2', im1, im2, grnd1, 6, 6, 18);
