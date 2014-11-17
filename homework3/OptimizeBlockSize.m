@@ -4,33 +4,35 @@ function [ mseVec ] = OptimizeBlockSize( label, im1, im2, grnd )
 
 bDraw = false;
 
+mseVec = [];
+blocksizeVec = [];
 dMaps = {};
 
-bestErr = Inf;
-bestBlocksize = Inf;
+startBlocksize = 14;
+endBlocksize = 14;
+stepBlocksize = 2;
 
-mseVec = [];
-i=1;
-allBlocksizes = 14:14;
+allBlocksizes = startBlocksize:stepBlocksize:endBlocksize;
+[~, numBlocksizes] = size(allBlocksizes);
 
-figure
-
-for blocksize = allBlocksizes
+parfor i = 1:numBlocksizes
     
+    blocksize = allBlocksizes(i);
     fprintf('====== Trying blocksize %d =======\n', blocksize);
     
     [disparityMap, err] = BlockMatch(im1, im2, grnd, blocksize, bDraw);
-    imshow(disparityMap, []);
-    
-    if err < bestErr
-        bestErr = err;
-        bestBlocksize = blocksize;
-    end
     
     mseVec(i) = err;
-    i = i+1;
-    dMaps{blocksize} = disparityMap;
+    blocksizeVec(i) = blocksize;
+    dMaps{i} = disparityMap;
 end
+
+
+% determine best error
+[minErr, idxBest] = min(mseVec);
+bestBlocksize = blocksizeVec(idxBest);
+bestDispMap = dMaps{idxBest};
+
 
 fprintf('>>> %s: best block size is %d\n', label, bestBlocksize);
 
