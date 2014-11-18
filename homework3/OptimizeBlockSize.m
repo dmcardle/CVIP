@@ -33,7 +33,6 @@ end
 bestBlocksize = blocksizeVec(idxBest);
 bestDispMap = dMaps{idxBest};
 
-
 % output results
 fprintf('==> %s: best block size is %d\n', label, bestBlocksize);
 fprintf('==> %s: best error is %f\n', label, minErr);
