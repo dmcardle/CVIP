@@ -1,4 +1,4 @@
-function [disparityMap,err] = BlockMatch(im1, im2, grnd, blocksize, bDraw)
+function [disparityMap,err] = BlockMatch(im1, im2, grnd, blocksize, bDraw, bRight)
 %Write a script that processes stereo image pair to generate disparity map
 %using basic block matching
 
@@ -52,9 +52,9 @@ for r=halfblocksize+1:rows-halfblocksize
         % Determine the best alignment between block1 and block2 within the
         % range defined by max_offset.
         bestSsd = Inf;
-        bestOffset = Inf; % value is irrelevant because it will be changed
+        bestC2 = Inf; % value is irrelevant because it will be changed
         
-        searchCoeff = 0.15;
+        searchCoeff = 0.3;
         minC2 = max(halfblocksize+1, round(c - cols*searchCoeff));
         maxC2 = min(cols-halfblocksize, round(c + cols*searchCoeff));
         
@@ -69,8 +69,13 @@ for r=halfblocksize+1:rows-halfblocksize
         
         %fprintf('for r=%d, c=%d, searching range (%d,%d)\n', r, c, minC2, maxC2);    
 
-        c2Range = [c:maxC2 minC2:c-1];
-
+        % Choose the range of values that c2 will take on in the loop.
+        if bRight
+            c2Range = c:maxC2;
+        else
+            c2Range = c:-1:minC2;
+        end
+        
         for c2 = c2Range
             
             %fprintf('r = %d, c = %d, dR = %d, dC = %d\n', r, c, deltaR, deltaC);
@@ -80,7 +85,7 @@ for r=halfblocksize+1:rows-halfblocksize
                         c2-halfblocksize+1:c2+halfblocksize, ...
                         :);
 
-            if bDraw && mod(c2,2)==0
+            if bDraw && mod(c2,10)==0
                 if exist('hRect2', 'var')
                     delete(hRect2);
                 end
@@ -107,14 +112,14 @@ for r=halfblocksize+1:rows-halfblocksize
                 %    fprintf('c2 - c = %d\n', c2-c);
                 %end
                 bestSsd = ssd;
-                bestOffset = abs(c2 - c);
+                bestC2 = c2;
             end
 
         end
         %end
         
         % Compute this point's disparity value based on the best offset.
-        disparityMap(r-halfblocksize,c-halfblocksize) = bestOffset;
+        disparityMap(r-halfblocksize,c-halfblocksize) = abs(bestC2-c);
     end
 end
 

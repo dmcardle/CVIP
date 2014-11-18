@@ -1,19 +1,21 @@
-function [ disp ] = ConsistencyCheck( disp, im1, im2 )
+function [ disp1 ] = ConsistencyCheck( disp1, disp2 )
 %CONSISTENCYCHECK Does consistency check on disparity maps.
 %   Detailed explanation goes here
 
-[rows,cols] = size(im1);
+
+[rows,cols] = size(disp1);
 for r = 1:rows
     for c = 1:cols
 
-        % There is an inconsistency if the pixel value from im1 cannot be
-        % found at + or - offset. This is because the disparity value is an
-        % absolute value.
-        offset = disp(r,c);
-        if ~(   (c+offset <= cols && im1(r,c) == im2(r,c+offset)) ...
-             || (c-offset >= 1    && im1(r,c) == im2(r,c-offset)))
-            
-            disp(r,c) = NaN;
+        % position of pixel (r,c) in right image according to disp1
+        x_r = c + disp1(r,c);
+        
+        % back-project using disp2
+        x_l = x_r - disp2(r,c);
+        
+        % if back-projected position is not equal to THIS pixel...
+        if c ~= x_l
+            disp1(r,c) = NaN;
         end
     end
 end

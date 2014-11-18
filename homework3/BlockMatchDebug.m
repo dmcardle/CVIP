@@ -7,7 +7,7 @@ useim1 = rand(n);
 x = rand(50);
 useim1(5:5+m-1, 5:5+m-1) = x;
 % create im2 (using same random block)
-useim2 = circshift(useim1, 20);
+useim2 = circshift(useim1,5);
 useim2(5:5+m-1, 23:23+m-1) = x;
 
 temp = useim1;
@@ -16,8 +16,8 @@ useim2 = temp;
 
 
 bDraw = false;
-blocksize = 10;
-[disparityMap, err] = BlockMatch(useim2, useim1, 0, blocksize, bDraw);
+blocksize = 6;
+[disparityMap, err] = BlockMatch(useim1, useim2, 0, blocksize, bDraw, false);
 
 imshow(disparityMap, [])
 fprintf('min val = %d\n', min(disparityMap(:)));
