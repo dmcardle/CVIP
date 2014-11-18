@@ -16,7 +16,7 @@ useim2 = temp;
 
 
 bDraw = false;
-blocksize = 20;
+blocksize = 10;
 [disparityMap, err] = BlockMatch(useim2, useim1, 0, blocksize, bDraw);
 
 imshow(disparityMap, [])
