@@ -22,7 +22,7 @@ grnd2 = imread([path 'disp5.png']);
 
 % Block Matching
 bDraw = false;
-blocksize = 16;
+blocksize = 10;
 fprintf('blocksize = %d\n', blocksize)
 fprintf('============== Computing disp1 =================\n')
 [disp1,err1] = BlockMatch(im1, im2, grnd1, blocksize, bDraw, false);
@@ -31,8 +31,8 @@ fprintf('============== Computing disp2 =================\n')
 
 
 %% Consistency Check on the computed disparity maps
-disp1Check = ConsistencyCheck(disp1, disp2);
-disp2Check = ConsistencyCheck(disp2, disp1);
+disp1Check = ConsistencyCheck(disp1, disp2, false);
+disp2Check = ConsistencyCheck(disp2, disp1, true);
 
 % Compute new MSE values
 newErr1 = imMse(disp1Check, grnd1);
