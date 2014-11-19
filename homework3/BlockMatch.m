@@ -54,9 +54,9 @@ for r=halfblocksize+1:rows-halfblocksize
         bestSsd = Inf;
         bestC2 = Inf; % value is irrelevant because it will be changed
         
-        searchCoeff = 0.25;
-        minC2 = max(halfblocksize+1, round(c - cols*searchCoeff));
-        maxC2 = min(cols-halfblocksize, round(c + cols*searchCoeff));
+        searchCoeff = 0.3;
+        minC2 = max(halfblocksize+1, round(c - cols_orig*searchCoeff));
+        maxC2 = min(cols-halfblocksize, round(c + cols_orig*searchCoeff));
         
         % draw rectangle on im1
         if bDraw
