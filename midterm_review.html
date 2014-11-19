@@ -1,0 +1,260 @@
+<html>
+	<head>
+		<title>CVIP Midterm Review</title>
+
+		<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+		<script type="text/javascript"
+		  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+		</script>
+
+		<script type="text/x-mathjax-config">
+		MathJax.Hub.Config({
+		  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+		});
+		
+		</script>
+		<style>
+			.dl-horizontal dt {
+				white-space: normal;
+			}
+			.dl-horizontal dd {
+				padding-bottom:1em;
+			}
+		</style>
+	</head>
+
+<body>
+<div class="container">
+	<div class="col-md-12">
+		<h1>CVIP Midterm Review</h1>
+
+		<h2>Linear Algebra</h2>
+
+		<div class="col-md-6">
+			<h3>Vectors</h3>
+
+			<h4>Operations on Vectors</h4>
+			<dl class="dl-horizontal">
+				<dt>Vector Length (norm)<dt>
+				<dd>
+					$\|\mathbf{x}\| = \sqrt{\sum\limits_i x_i^2}$
+				</dd>
+
+				<dt>Inner Product</dt>
+				<dd>
+					Inner product of $\mathbf{a}$ and $\mathbf{b}$ is
+					$\mathbf{a}^T\mathbf{b}$. Defined as $\sum\limits_i a_i b_i$.
+				</dd>
+
+				<dt>Outer Product</dt>
+				<dd>
+				Outer product is $\mathbf{a}\mathbf{b}^T
+				=
+				\begin{bmatrix}
+				a_1b_1 & a1_b2 & a_1b_3\\
+				a_2b_1 & a2_b2 & a_2b_3\\
+				a_3b_1 & a3_b2 & a_3b_3\\
+				\end{bmatrix}
+				$.
+				</dd>
+			</dl>
+			<h4>Other facts</h4>
+			<ul>
+				<li>
+				When $\alpha$ is the angle between vectors $\mathbf{u}$ and
+				$\mathbf{v}$, the inner product, or $\mathbf{u}^T\mathbf{v}$ is
+				equal to $\|\mathbf{u}\|\|\mathbf{v}\|\cos\alpha$.
+				</li>
+			</ul>
+		</div>
+		<div class="col-md-6">
+			<h3>Matrices</h3>
+
+			<dl class="dl-horizontal">
+				<dt>Rank<dt>
+				<dd>is the number of linearly-independent columns of a
+				matrix.</dd>
+
+				<dt>Covariance Matrix</dt>
+				<dd>
+				In position $(i,j)$ of a covariance matrix is the covariance
+				between the $i$th and $j$th elements of a <b>random vector</b>
+				(a vector of random variables).
+				</dd>
+
+				<dt>Singular Value Decomposition</dt>
+				<dd>
+				The process of writing any matrix $\mathbf{A}_{m\times n}$ as
+				the product of three matrices $\mathbf{A} = \mathbf{U}_{m\times
+				m} \mathbf{D}_{m\times n} \mathbf{V}^T_{n\times n}$, where
+				$\mathbf{U}$ and $\mathbf{V}$ are orthonormal vectors.
+				</dd>
+
+				<dt>Positive Definite</dt>
+				<dd>
+					<p>
+					A matrix $\mathbf{M}_{n \times n}$ is positive definite if
+					$\mathbf{z}^T \mathbf{M}\mathbf{z}$ is positive for every
+					non-zero column vector $\mathbf{z}$ of $n$ real numbers.
+					</p>
+
+					<p class="text-danger">
+					A positive definite matrix by definition has all positive
+					eigenvalues.
+					</p>
+				</dd>
+			</dl>
+		</div>
+	</div>
+	<div class="col-md-12">
+		<div class="col-md-6">
+			<h3>Eigenvectors and Eigenvalues</h3>
+
+			<ul>
+				<li>
+					$\mathbf{x}$ is eigenvector of $\mathbf{A} \Longleftrightarrow
+					\mathbf{Ax} = \lambda\mathbf{x}$.
+				</li>
+				<li>
+					When $\mathbf{A}$ multiplies eigenvector $\mathbf{x}$,
+					$\mathbf{x}$ is only scaled.
+				</li>
+				<li class="text-danger">
+					If eigenvalues $\lambda_i$ of $\mathbf{A}$ are distinct,
+					corresponding eigenvectors are <b>linearly independent</b>.
+				</li>
+			</ul>
+		</div>
+		<div class="col-md-6">
+			<h3>Principal Component Analysis</h3>
+			<ul>
+				<li>Reduces dimensionality by representing image as linear
+				combination of eigenvectors. "Eigenfaces" for example.</li>
+				<li>Goal is to find directions of maximum variance</li>
+			</ul>
+		</div>
+	</div>
+	<div class="col-md-12">
+
+		<div class="col-md-6">
+			<h2>Photometry</h2>
+
+			<dl class="dl-horizontal">
+				<dt>Thin Lens Equation</dt>
+				<dd>
+					<p>
+						$\dfrac{1}{f} = \dfrac{1}{d_o} + \dfrac{1}{d_i}$.
+					</p>
+					<p>
+						Note that $d_o$ is the distance between the object and
+						the lens and $d_i$ is the distance between the lens and
+						the image.
+					</p>	
+					<p>
+						Any point satisfying this equation is in focus.
+					</p>
+				</dd>
+
+				<dt>Diffuse-Specular Equation</dt>
+				<dd>
+					<p>
+					$I(\mathbf{x}) = \rho(\mathbf{x})(\mathbf{N}\cdot\mathbf{S})V_\mathit{is}(S,\mathbf{x}) + \rho(\mathbf{x})A + M$
+					</p>
+					<p>
+						$I(\mathbf{x})$ represents intensity
+					</p>
+					<p>
+						$\rho(\mathbf{x})$ represents albedo
+					</p>
+					<p>
+						$M$ represents mirror-like specular term
+					</p>
+
+				</dd>
+			</dl>
+
+		</div>
+		<div class="col-md-6">
+			<h2>Linear Filters</h2>
+
+			$$
+			H = 
+				\begin{bmatrix}
+				a & b & c\\
+				d & e & f\\
+				g & h & i
+				\end{bmatrix}
+			$$
+
+			<dl class="dl-horizontal">
+				<dt>Correlation</dt>
+				<dd>
+					\begin{align}
+						G &= H \otimes F\\
+						G[i,j] &= \sum_{u=-k}^k \sum_{v=-k}^k H[u,v]\; F[i+u,j+v]
+					\end{align}
+				</dd>
+
+				<dt>Convolution</dt>
+				<dd>
+					\begin{align}
+						G &= H \star F\\
+						G[i,j] &= \sum_{u=-k}^k \sum_{v=-k}^k H[u,v]\; F[i-u,j-v]
+					\end{align}
+				</dd>
+			</dl>
+		</div>
+	</div>
+
+	<div class="col-md-12">
+		<h2>Image Features and Textures</h2>
+		<div class="col-md-4">
+			<h3>Harris Corner Detector</h3>
+
+			<p>
+				In the region around a corner, the image gradient has two or
+				more dominant directions.
+			</p>
+			<p>
+				Key features of good corners: <b>high contrast</b> and <b>sharp
+					change in edge orientation</b>.  Large gradients that
+				change direction sharply will have two large eigenvalues.
+
+				$$\mathcal{H} = \sum\limits_\text{window} \left\{ (\nabla I) (\nabla I)^T \right\}$$
+			</p>
+		</div>
+		<div class="col-md-4">
+			<h3>Blob Detector</h3>
+
+			<p>Edge = ripple.</p>
+			<p>Blob = superposition of two ripples.</p>
+
+			<p><b>Scale selection.</b> Want to find characteristic scale of
+			blob by convolving it with Laplacians at several scales and looking
+			for maximum response.</p>
+
+			<p><b>Invariance and Covariance.</b> Laplacian (blob) response is
+			invariant w.r.t. rotation and scaling.  Blob location is covariant
+			w.r.t. rotation and scaling.</p>
+		</div>
+		<div class="col-md-4">
+			<h3>SIFT = Scale Invariant Feature Transform</h3>
+
+			<ul>
+				<li>Take 16x16 square window around detected feature.</li>
+				<li>Compute edge orientation for each pixel</li>
+				<li>Throw out weak edges</li>
+				<li>Create histogram
+					<ul>
+						<li>4x4 spatial bins </li>
+						<li>8-bin orientation histogram per bin</li>
+					</ul>	
+				</li>
+			</ul>
+
+
+		</div>
+	</div>
+</div>
+</body>
+</html>
