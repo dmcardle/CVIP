@@ -1,4 +1,4 @@
-function [disparityMap,err] = BlockMatch(im1, im2, grnd, blocksize, bDraw)
+function [disparityMap,err] = BlockMatch(im1, im2, grnd, blocksize, bDraw, bRight)
 %Write a script that processes stereo image pair to generate disparity map
 %using basic block matching
 
@@ -52,27 +52,31 @@ for r=halfblocksize+1:rows-halfblocksize
         % Determine the best alignment between block1 and block2 within the
         % range defined by max_offset.
         bestSsd = Inf;
-        bestOffset = Inf; % value is irrelevant because it will be changed
+        bestC2 = Inf; % value is irrelevant because it will be changed
         
-        searchCoeff = 0.2;
+        searchCoeff = 0.25;
         minC2 = max(halfblocksize+1, round(c - cols*searchCoeff));
         maxC2 = min(cols-halfblocksize, round(c + cols*searchCoeff));
         
         % draw rectangle on im1
         if bDraw
-            if exist('hRect1')
+            if exist('hRect1', 'var')
                 delete(hRect1);
             end
             hRect1 = rectangle('Parent', hIm1, 'Position', [c r 10 10], 'FaceColor', 'r');
             imshow(block1, 'Parent', hIm3);
         end
         
-        %fprintf('for r=%d, c=%d, searching range (%d,%d)\n', r, c, minC2, maxC2);
-        
-        
-        c2Range = [c:maxC2 minC2:c-1 ];
-        for c2 = c2Range
+        %fprintf('for r=%d, c=%d, searching range (%d,%d)\n', r, c, minC2, maxC2);    
 
+        % Choose the range of values that c2 will take on in the loop.
+        if bRight
+            c2Range = c:maxC2;
+        else
+            c2Range = c:-1:minC2;
+        end
+        
+        for c2 = c2Range
             
             %fprintf('r = %d, c = %d, dR = %d, dC = %d\n', r, c, deltaR, deltaC);
             %fprintf('%d\n', c + deltaC + 1);
@@ -81,11 +85,18 @@ for r=halfblocksize+1:rows-halfblocksize
                         c2-halfblocksize+1:c2+halfblocksize, ...
                         :);
 
-            if bDraw
-                if exist('hRect2')
+            if bDraw && mod(c2,10)==0
+                if exist('hRect2', 'var')
                     delete(hRect2);
                 end
-                hRect2 = rectangle('Parent', hIm2, 'Position', [c2 r 10 10], 'FaceColor', 'r');
+                
+                if mod(c, 2) == 0
+                    color = 'r';
+                else
+                    color = 'g';
+                end
+                
+                hRect2 = rectangle('Parent', hIm2, 'Position', [c2 r 10 10], 'FaceColor', color);
                 imshow(block2, 'Parent', hIm4);
 
                 imshow(block2);
@@ -97,18 +108,18 @@ for r=halfblocksize+1:rows-halfblocksize
             ssd = sum(sd(:));
 
             if ssd < bestSsd
-                if bDraw
-                    fprintf('c2 - c = %d\n', c2-c);
-                end
+                %if bDraw
+                %    fprintf('c2 - c = %d\n', c2-c);
+                %end
                 bestSsd = ssd;
-                bestOffset = abs(c2 - c);
+                bestC2 = c2;
             end
 
         end
         %end
         
         % Compute this point's disparity value based on the best offset.
-        disparityMap(r-halfblocksize,c-halfblocksize) = bestOffset;
+        disparityMap(r-halfblocksize,c-halfblocksize) = abs(c-bestC2);
     end
 end
 
@@ -116,15 +127,9 @@ if bDraw
     imshow(disparityMap, []);
 end
 
-fprintf('size of disparity map = %d\n', size(disparityMap))
-fprintf('size of grnd = %d\n', size(grnd))
-
-grnd = double(grnd);
-sd = (disparityMap - grnd).^2;
-err = (1 / rows*cols) * sum(sd(:));
-
-
-
+% Compute the error of this disparity map
+err = imMse(disparityMap, grnd);
+fprintf('error = %.2f\n', err);
 
 %imshow(Disparity,[]), axis image, colormap('jet'), colorbar;
 %caxis([0 disparityRange]);

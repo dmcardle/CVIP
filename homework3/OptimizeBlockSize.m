@@ -1,4 +1,4 @@
-function [ mseVec ] = OptimizeBlockSize( label, im1, im2, grnd, from, step, to )
+function [ mseVec ] = OptimizeBlockSize( label, im1, im2, bRight, grnd, from, step, to )
 %OPTIMIZEBLOCKSIZE Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -20,7 +20,7 @@ for i = 1:numBlocksizes
     blocksize = allBlocksizes(i);
     fprintf('====== Trying blocksize %d =======\n', blocksize);
     
-    [disparityMap, err] = BlockMatch(im1, im2, grnd, blocksize, bDraw);
+    [disparityMap, err] = BlockMatch(im1, im2, grnd, blocksize, bDraw, bRight);
     
     mseVec(i) = err;
     blocksizeVec(i) = blocksize;
@@ -32,7 +32,6 @@ end
 [minErr, idxBest] = min(mseVec);
 bestBlocksize = blocksizeVec(idxBest);
 bestDispMap = dMaps{idxBest};
-
 
 % output results
 fprintf('==> %s: best block size is %d\n', label, bestBlocksize);
