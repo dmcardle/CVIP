@@ -4,6 +4,7 @@ MODE_EVAL_DOLLS = 2;
 MODE_EVAL_REINDEER = 3;
 
 mode = MODE_DATA;
+debug = false;
 
 if mode == MODE_DATA
     path = 'Data/';
@@ -19,6 +20,13 @@ im1 = rgb2gray(imread([path 'view1.png']));
 im2 = rgb2gray(imread([path 'view5.png']));
 grnd1 = imread([path 'disp1.png']);
 grnd2 = imread([path 'disp5.png']);
+
+if debug
+    im1 = imresize(im1, 0.5);
+    im2 = imresize(im2, 0.5);
+    grnd1 = imresize(grnd1, 0.5);
+    grnd2 = imresize(grnd2, 0.5);
+end
 
 %% Block Matching
 bDraw = false;
@@ -50,4 +58,4 @@ subplot(2,2,4), imshow(disp2Check, []), title('Disparity Map 2 (After Consistenc
 %% Dynamic Programming
 
 disp1 = DynamicProg(im1, im2);
-imshow(disp1)
+imshow(disp1, [0 70])

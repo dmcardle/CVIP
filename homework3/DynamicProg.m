@@ -7,40 +7,32 @@ im1edges = edge(im1, 'canny');
 im2edges = edge(im2, 'canny');
 
 [rows,cols] = size(im1);
+dispMap = zeros(rows,cols);
+        
+function c = ArcCost()
 
-function c = ArcCost(im1RowEdges, im2RowEdges, i,j,k,l)
-    % Arc-Cost(i,j,k,l) evaluates and returns the cost of matching the
-    % intervals (i,k) and (j,l).
-    
-    % TODO determine correct ArcCost algorithm.  For now, we are
-    % calculuating the difference in size between the two intervals. A
-    % large difference in interval size implies that the intervals should
-    % not be matched.
-    iPos = im1RowEdges(i);
-    kPos = im1RowEdges(k);
-    jPos = im2RowEdges(j);
-    lPos = im2RowEdges(l);
-    c = abs((iPos-jPos) - (kPos-lPos));
 end
-    
     
 for r=1:rows
     
-    if mod(r,50)
+    if mod(r,50) == 0
         fprintf('%.2f%% done\n', 100*r/rows);
     end
     
-    im1row = im1edges(r,:);
-    im2row = im2edges(r,:);
+    im1Row = im1edges(r,:);
+    im2Row = im2edges(r,:);
     
     
     
     % We assume the scanlines have m and n edge points, respectively (the
     % endpoints of the scanlines are included for convenience).
-    im1rowEdges = [1 find(im1row) cols];
-    im2rowEdges = [1 find(im2row) cols];
-    [~, m] = size(im1rowEdges);
-    [~, n] = size(im2rowEdges);
+    im1RowEdges = [1 find(im1Row) cols];
+    im2RowEdges = [1 find(im2Row) cols];
+    [~, m] = size(im1RowEdges);
+    [~, n] = size(im2RowEdges);
+    
+    
+
     
     
     % For correctness, C(1,1) should be initalized with a value of zero.
@@ -67,7 +59,26 @@ for r=1:rows
                 
                 % Compute new path cost and update backward pointer if
                 % necessary.
-                d = C(i,j) + ArcCost(im1rowEdges, im2rowEdges, i, j, k, l);
+                
+                % ===== inlined version of ArcCost function =====
+                % Arc-Cost(i,j,k,l) evaluates and returns the cost of
+                % matching the intervals (i,k) and (j,l).
+                
+                iVal = im1RowEdges(i);
+                kVal = im1RowEdges(k);
+
+                jVal = im2RowEdges(j);
+                lVal = im2RowEdges(l);
+
+                range1 = im1(r, iVal:kVal);
+                range2 = im2(r, jVal:lVal);
+
+                mean1 = mean(range1);
+                mean2 = mean(range2);
+                arcCost = (mean1-mean2) .^ 2;
+                % ===============================================
+                
+                d = C(i,j) + arcCost;
                 if d < C(k,l)
                     C(k,l) = d;
                     B{k,l} = [i,j];
@@ -88,9 +99,21 @@ for r=1:rows
         
         idx_P = idx_P + 1;
         P(idx_P, :) = [i j];
+        
+        % So we know that edge i matched with edge j
+        
+        iPos = im1RowEdges(i);
+        if i+1 > size(im1RowEdges)
+            i2Pos = im1RowEdges(end);
+        else
+            i2Pos = im1RowEdges(i+1);    
+        end
+        
+        jPos = im2RowEdges(j);
+        dispMap(r, iPos:i2Pos) = abs(jPos - iPos);
+
     end
     
-    imshow(C, [])
 
 %    dispMap(r, :) = abs(P(:,1) - P(:,2))';
 end
