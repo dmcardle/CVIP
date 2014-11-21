@@ -20,7 +20,7 @@ im2 = rgb2gray(imread([path 'view5.png']));
 grnd1 = imread([path 'disp1.png']);
 grnd2 = imread([path 'disp5.png']);
 
-% Block Matching
+%% Block Matching
 bDraw = false;
 blocksize = 10;
 fprintf('blocksize = %d\n', blocksize)
@@ -45,3 +45,9 @@ subplot(2,2,1), imshow(disp1, [])
 subplot(2,2,2), imshow(disp2, [])
 subplot(2,2,3), imshow(disp1Check, []), title('Disparity Map 1 (After Consistency Check)')
 subplot(2,2,4), imshow(disp2Check, []), title('Disparity Map 2 (After Consistency Check)')
+
+
+%% Dynamic Programming
+
+disp1 = DynamicProg(im1, im2);
+imshow(disp1)
