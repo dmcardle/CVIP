@@ -7,7 +7,7 @@ im1 = double(im1);
 
 [rows,cols] = size(im1);
 
-sd = (im1 - grnd).^2;
+sd = (im1(:) - grnd(:)).^2;
 err = (1 / (rows*cols)) * sum(nansum(sd));
 
 end
