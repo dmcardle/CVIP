@@ -4,7 +4,7 @@ MODE_EVAL_DOLLS = 2;
 MODE_EVAL_REINDEER = 3;
 
 mode = MODE_DATA;
-debug = false;
+debug = true;
 
 if mode == MODE_DATA
     path = 'Data/';
@@ -22,10 +22,11 @@ grnd1 = imread([path 'disp1.png']);
 grnd2 = imread([path 'disp5.png']);
 
 if debug
-    im1 = imresize(im1, 0.5);
-    im2 = imresize(im2, 0.5);
-    grnd1 = imresize(grnd1, 0.5);
-    grnd2 = imresize(grnd2, 0.5);
+    scale = 0.5;
+    im1 = imresize(im1, scale);
+    im2 = imresize(im2, scale);
+    grnd1 = imresize(grnd1, scale) .* scale;
+    grnd2 = imresize(grnd2, scale) .* scale;
 end
 
 %% Block Matching
