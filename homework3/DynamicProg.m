@@ -92,6 +92,7 @@ for r=1:rows
     P = [m n];
     i = m;
     j = n;
+    
     while ~isnan(B{i,j})
         pair = B{i,j};
         i = pair(1);
@@ -111,10 +112,10 @@ for r=1:rows
         
         jPos = im2RowEdges(j);
         dispMap(r, iPos:i2Pos) = abs(jPos - iPos);
-
     end
     
-
+    dispMap(r, 1:iPos) = abs(jPos - iPos);
+    
 %    dispMap(r, :) = abs(P(:,1) - P(:,2))';
 end
 
