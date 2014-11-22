@@ -1,4 +1,4 @@
-function [ mseVec ] = OptimizeBlockSize( label, im1, im2, bRight, grnd, from, step, to )
+function [ allBlocksizes, bestBlocksize, minErr, mseVec, bestDispMap ] = OptimizeBlockSize( label, im1, im2, bRight, grnd, from, step, to )
 %OPTIMIZEBLOCKSIZE Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -33,17 +33,6 @@ end
 bestBlocksize = blocksizeVec(idxBest);
 bestDispMap = dMaps{idxBest};
 
-% output results
-fprintf('==> %s: best block size is %d\n', label, bestBlocksize);
-fprintf('==> %s: best error is %f\n', label, minErr);
-
-figure
-plot(allBlocksizes, mseVec)
-title(sprintf('%s: MSE vs Blocksize', label))
-
-figure
-imshow(bestDispMap, [0 70]);
-title(sprintf('%s: best disparity map', label))
 
 end
 

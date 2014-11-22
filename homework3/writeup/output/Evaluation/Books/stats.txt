@@ -1,0 +1,20 @@
+
+BLOCK MATCHING
+  im1 -> im2 error = 1.818376e+04
+  im2 -> im1 error = 4.627045e+03
+
+AFTER CONSISTENCY CHECK
+newErr1 = 3.506060
+newErr2 = 5.385503
+
+DYNAMIC PROG
+  im1 -> im2 error = 5.449269e+03
+  im2 -> im1 error = 5.640123e+03
+
+
+BLOCK MATCH WINDOW SIZE OPTIMIZATION
+
+
+BLOCK MATCH WINDOW SIZE OPTIMIZATION
+==> 1 vs 5: best block size is 26
+==> 1 vs 5: best error is 11633.487640

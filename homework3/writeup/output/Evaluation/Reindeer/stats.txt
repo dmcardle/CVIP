@@ -1,0 +1,12 @@
+
+BLOCK MATCHING
+  im1 -> im2 error = 1.004877e+04
+  im2 -> im1 error = 4.838764e+03
+
+AFTER CONSISTENCY CHECK
+newErr1 = 8.482133
+newErr2 = 8.310708
+
+DYNAMIC PROG
+  im1 -> im2 error = 3.452582e+03
+  im2 -> im1 error = 3.331240e+03
