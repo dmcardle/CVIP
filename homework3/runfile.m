@@ -58,4 +58,18 @@ subplot(2,2,4), imshow(disp2Check, []), title('Disparity Map 2 (After Consistenc
 %% Dynamic Programming
 
 disp1 = DynamicProg(im1, im2);
-imshow(disp1, [0 70])
+
+grnd1Max = max(grnd1(:));
+grnd2Max = max(grnd2(:));
+figure
+subplot(2,1,1), imshow(disp1, [0 grnd1Max])
+
+err = imMse(disp1, grnd1);
+fprintf('DP Error 1 to 2 is %f\n', err);
+
+
+disp2 = DynamicProg(im2, im1);
+subplot(2,1,2), imshow(disp2, [0 grnd2Max])
+
+err = imMse(disp2, grnd2);
+fprintf('DP Error 2 to 1 is %f\n', err);
