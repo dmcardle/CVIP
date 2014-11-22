@@ -54,7 +54,7 @@ for r=halfblocksize+1:rows-halfblocksize
         bestSsd = Inf;
         bestC2 = Inf; % value is irrelevant because it will be changed
         
-        searchCoeff = 0.3;
+        searchCoeff = 0.5;
         minC2 = max(halfblocksize+1, round(c - cols_orig*searchCoeff));
         maxC2 = min(cols-halfblocksize, round(c + cols_orig*searchCoeff));
         
@@ -73,7 +73,7 @@ for r=halfblocksize+1:rows-halfblocksize
         if bRight
             c2Range = c:maxC2;
         else
-            c2Range = c:-1:minC2;
+            c2Range = minC2:c;
         end
         
         for c2 = c2Range

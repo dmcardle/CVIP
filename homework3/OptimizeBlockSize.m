@@ -42,7 +42,7 @@ plot(allBlocksizes, mseVec)
 title(sprintf('%s: MSE vs Blocksize', label))
 
 figure
-imshow(bestDispMap, []);
+imshow(bestDispMap, [0 70]);
 title(sprintf('%s: best disparity map', label))
 
 end
