@@ -6,17 +6,15 @@ dirs = ['output/Data',
         'output/Evaluation/Dolls',
         'output/Evaluation/Reindeer']
 
-f = open('results_display.tex', 'w')
+f = open('results_display.tex', 'wb')
 
 def escapeUnderscores(s):
     return sub("_", "\_", s)
 
 def displayImage(imPath):
-    code = "\\begin{figure}[h]"
+    code = "\subsubsection{%s}\n" % escapeUnderscores(imPath)
     code += "    \\includegraphics[scale=0.5]{%s}" % imPath
-    code += "    \\caption{%s}" % escapeUnderscores(imPath)
-    code += "\\end{figure}"
-    f.write(code + "\n")
+    f.write(code + "\n\n")
 
 for d in dirs:
     sectionName = d.split("/")[-1]
@@ -24,9 +22,12 @@ for d in dirs:
 
     displayImage(d + "/disp1.png")
     displayImage(d + "/disp2.png")
-    displayImage(d + "/mse_vs_blocksize.png")
-    displayImage(d + "/best_dispmap.png")
+    
+    if sectionName not in ["Dolls", "Reindeer"]:
+        displayImage(d + "/mse_vs_blocksize.png")
+        displayImage(d + "/best_dispmap.png")
     displayImage(d + "/after_consistency_check.png")
     displayImage(d + "/dynamic_prog.png")
+
 
 f.close()

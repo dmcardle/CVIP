@@ -20,6 +20,14 @@
 			.dl-horizontal dd {
 				padding-bottom:1em;
 			}
+            h1 {
+                /*
+                color: #0bf;
+                */
+            }
+            h2 {
+                color: #017;
+            }
 		</style>
 	</head>
 
@@ -51,9 +59,9 @@
 				Outer product is $\mathbf{a}\mathbf{b}^T
 				=
 				\begin{bmatrix}
-				a_1b_1 & a1_b2 & a_1b_3\\
-				a_2b_1 & a2_b2 & a_2b_3\\
-				a_3b_1 & a3_b2 & a_3b_3\\
+				a_1b_1 & a_1b_2 & a_1b_3\\
+				a_2b_1 & a_2b_2 & a_2b_3\\
+				a_3b_1 & a_3b_2 & a_3b_3\\
 				\end{bmatrix}
 				$.
 				</dd>
@@ -240,7 +248,10 @@
 		<div class="col-md-4">
 			<h3>SIFT = Scale Invariant Feature Transform</h3>
 
+
 			<ul>
+                <li> Algorithm to detect and describe local features in images.
+                </li>
 				<li>Take 16x16 square window around detected feature.</li>
 				<li>Compute edge orientation for each pixel</li>
 				<li>Throw out weak edges</li>
@@ -252,9 +263,47 @@
 				</li>
 			</ul>
 
-
 		</div>
 	</div>
+
+    <div class="col-md-12">
+        <h2>Algorithms</h2>
+        <div class="col-md-4">
+            <h3>RANSAC</h3>
+            <ul>
+                <li>iterative method to estimate parameters of a mathematical
+                model from a set of observed data which contains outliers</li>
+                <li>simple example: fitting a line in two dimensions
+                    <ul>
+                        <li> least squares does not perform well with outliers
+                        because the line is fitted to <i>all</i> points</li>
+                        </li> 
+                        <li> RANSAC performs well because it fits the line to
+                        only the inliers </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-4">
+            <h3>K-Means Clustering</h3>
+            <ul>
+                <li>partitions $n$ observations into $k$ clusters in which each
+                observation belongs to the cluster with the nearest mean,
+                serving as a prototype of the cluster</li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h3>Mean Shift Segmentation</h3>
+            <ul>
+                <li>versatile technique for clustering-based segmentation</li>
+                <li>find modes of non-parametric density</li>
+                <li>not good with high dimensionality</li>
+                <li>good general-purpose segmentation, robust to outliers</li>
+            </ul>
+        </div>
+    </div>
+
 </div>
 </body>
 </html>

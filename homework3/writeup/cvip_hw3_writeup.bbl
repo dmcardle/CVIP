@@ -1,0 +1,16 @@
+\begin{thebibliography}{1}
+
+\bibitem{paperone}
+{\sc Geiger, A., Roser, M., and Urtasun, R.}
+\newblock Efficient large-scale stereo matching.
+\newblock In {\em Computer Vision – ACCV 2010}, R.~Kimmel, R.~Klette, and
+  A.~Sugimoto, Eds., vol.~6492 of {\em Lecture Notes in Computer Science}.
+  Springer Berlin Heidelberg, 2011, pp.~25--38.
+
+\bibitem{papertwo}
+{\sc Mei, X., Sun, X., Zhou, M., shaohui Jiao, Wang, H., and Zhang, X.}
+\newblock On building an accurate stereo matching system on graphics hardware.
+\newblock In {\em Computer Vision Workshops (ICCV Workshops), 2011 IEEE
+  International Conference on\/} (Nov 2011), pp.~467--474.
+
+\end{thebibliography}

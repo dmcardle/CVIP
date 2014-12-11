@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 
-\usepackage{hyperref} % for auto-linking table of contents
+%\usepackage{hyperref} % for auto-linking table of contents
 \usepackage{amsmath}
 \usepackage[margin=1in]{geometry}
 \usepackage{fancyvrb} % fancy verbatim
@@ -14,6 +14,12 @@
 \usepackage{paralist}
 \usepackage{listings}
 \usepackage{color}
+
+
+\usepackage[english]{babel}
+%Includes "References" in the table of contents
+\usepackage[nottoc]{tocbibind}
+
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -37,29 +43,6 @@
 }
 
 
-\hypersetup{
-    bookmarks=true,         % show bookmarks bar?
-    unicode=false,          % non-Latin characters in Acrobat’s bookmarks
-    pdftoolbar=true,        % show Acrobat’s toolbar?
-    pdfmenubar=true,        % show Acrobat’s menu?
-    pdffitwindow=false,     % window fit to page when opened
-    pdfstartview={FitH},    % fits the width of the page to the window
-    pdftitle={My title},    % title
-    pdfauthor={Author},     % author
-    pdfsubject={Subject},   % subject of the document
-    pdfcreator={Creator},   % creator of the document
-    pdfproducer={Producer}, % producer of the document
-    pdfkeywords={keyword1} {key2} {key3}, % list of keywords
-    pdfnewwindow=true,      % links in new PDF window
-    colorlinks=true,       % false: boxed links; true: colored links
-    linkcolor=blue,          % color of internal links (change box color with linkbordercolor)
-    citecolor=green,        % color of links to bibliography
-    filecolor=magenta,      % color of file links
-    urlcolor=blue           % color of external links
-}
-\usepackage[ampersand]{easylist}
-
-
 
 \pagestyle{fancy}
 \lhead{Daniel McArdle}
@@ -70,13 +53,12 @@
 
 \begin{document}
 
-\title{Homework 2: Segmentation}
+\title{Homework 3: Disparity}
 \author{Daniel McArdle\\
 CSE 573: Computer Vision}
 \date{November 22, 2014}
 \maketitle  % without this line, the header would not be generated
 
-% \tableofcontents
 
 \section{Report}
 
@@ -90,7 +72,7 @@ could compute a best guess for the disparity of the textureless region.
 The ``Reindeer" image is likely the one with the largest textureless region.
 Unsurprisingly, this area of the disparity map is quite inaccurate.  When the
 block-matching algorithm encounters a textureless region, any block matches any
-other block from that region, causing inacurrate calculated disparities.
+other block from that region, causing inaccurate calculated disparities.
 
 \subsection{MSE vs Window Size}
 
@@ -153,7 +135,7 @@ implementations are sorely lacking. Interestingly, in the area of disparity
 matching, there is usually a tradeoff between the two ~\cite{papertwo}.
 
 \subsubsection{Paper 1: \textbf{Efficient Large Scale Stereo Matching} (2010)}
-The main idea of \textbf{Efficient Large Scale Stereo Matching} is that many
+The main idea of \textbf{Efficient Large Scale Stereo Matching} ~\cite{paperone} is that many
 computed stereo correspondences will be ambiguous, but some of them can be
 ``robustly matched." These ``support points" are then used to improve the
 quality of the ambiguous correspondences.
@@ -177,7 +159,7 @@ support points to actually perform the stereo matching.
 
 \subsubsection{Paper 2: \textbf{On building an accurate stereo matching system on graphics hardware} (2011)}
 
-This paper was intriguing to me because it presents an algorithm that runs on
+This paper ~\cite{papertwo} was intriguing to me because it presents an algorithm that runs on
 the GPU. The abstract boasts that it achieves near-real-time performance and is
 the top performer in the Middlebury benchmark at the time of publication,
 achieving results in 0.1 seconds. 
@@ -195,6 +177,8 @@ highly parallel and our algorithm relies on mutable state.
 % Load the results_display file
 \input{results_display.tex}
 
+
+\bibliographystyle{acm}
 \bibliography{biblio}
 
 
