@@ -52,6 +52,14 @@ train_ids = train_ids(1:counter);
 Ftrain = F(train_ids,:); %Use this as your training data
 Ctrain = C(train_ids); %Use this as the labels for your training data
 
+% DEBUG run only on subset
+if B_DEBUG && B_DEBUG_SUBSET
+    len = length(train_ids);
+    randlist = randperm(len);
+    Ftrain = Ftrain(randlist (1:I_SUBSET_SIZE),:);
+    Ctrain = Ctrain(randlist (1:I_SUBSET_SIZE),:);
+end
+
 disp('Running the SVM fit model process')
 netall = cell(Nclasses, 1); 
 for c = 1:Nclasses

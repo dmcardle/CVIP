@@ -1,5 +1,10 @@
 %runfile - script used to complete homework 4 using SVM classifier
 
+B_DEBUG = true;
+
+B_DEBUG_SUBSET = true;
+I_SUBSET_SIZE = 5000;
+
 % 1. Load the given image and superpixel data
 load 'cvip_image_data';
 imsegs=image_data;
