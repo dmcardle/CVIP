@@ -5,6 +5,9 @@ B_DEBUG = true;
 B_DEBUG_SUBSET = true;
 I_SUBSET_SIZE = 5000;
 
+% begin timer
+tic;
+
 % 1. Load the given image and superpixel data
 load 'cvip_image_data';
 imsegs=image_data;
@@ -26,3 +29,6 @@ save svm_train_wspace;
 % Optionally, a confusion matrix can be generated to display results.
 testSceneLabels;
 save svm_test_wspace;
+
+% end timer, print elapsed time
+toc
