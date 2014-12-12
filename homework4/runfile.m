@@ -1,9 +1,11 @@
 %runfile - script used to complete homework 4 using SVM classifier
 
-B_DEBUG = true;
+DEBUG = {};
+DEBUG.ENABLED = true;
 
-B_DEBUG_SUBSET = true;
-I_SUBSET_SIZE = 5000;
+DEBUG.SUBSET = {};
+DEBUG.SUBSET.ENABLED = true;
+DEBUG.SUBSET.SUBSET_SIZE = 10000;
 
 % begin timer
 tic;
@@ -31,4 +33,5 @@ testSceneLabels;
 save svm_test_wspace;
 
 % end timer, print elapsed time
-toc
+seconds = toc;
+fprintf('Elapsed time: %.2f minutes\n', seconds/60);

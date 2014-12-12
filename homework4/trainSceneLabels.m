@@ -53,11 +53,15 @@ Ftrain = F(train_ids,:); %Use this as your training data
 Ctrain = C(train_ids); %Use this as the labels for your training data
 
 % DEBUG run only on subset
-if B_DEBUG && B_DEBUG_SUBSET
+if DEBUG.ENABLED && DEBUG.SUBSET.ENABLED
     len = length(train_ids);
+    
+    fprintf('DEBUG_SUBSET: selecting %d of %d.\n', ...
+            DEBUG.SUBSET.SUBSET_SIZE, len);
+    
     randlist = randperm(len);
-    Ftrain = Ftrain(randlist (1:I_SUBSET_SIZE),:);
-    Ctrain = Ctrain(randlist (1:I_SUBSET_SIZE),:);
+    Ftrain = Ftrain(randlist (1:DEBUG.SUBSET.SUBSET_SIZE),:);
+    Ctrain = Ctrain(randlist (1:DEBUG.SUBSET.SUBSET_SIZE),:);
 end
 
 disp('Running the SVM fit model process')
