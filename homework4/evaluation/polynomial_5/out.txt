@@ -1,0 +1,35 @@
+>> load evaluation/baseline/genfeatures.mat
+>> % 3. Train using the SVM classifier
+% NOTE: In this script, you will need to change the SVM directory  
+% setings and the cross-validation index number (between 1 and 5)
+% This script saves the workspace 'svm_train_wspace.mat';
+trainSceneLabels;
+save svm_train_wspace;
+
+% 4. Get the predictions made by the SVM classifier on test dataset
+% Optionally, a confusion matrix can be generated to display results.
+testSceneLabels;
+save svm_test_wspace;
+Extracting global spix information
+Setting up the spix for the training dataset
+DEBUG_SUBSET: selecting 50000 of 316824.
+Running the SVM fit model process
+Completed training ***remember to save workspace***
+Setting up the spix for the testing dataset
+Using the SVM models to predict scores for test data
+Scores for class 1
+Scores for class 2
+Scores for class 3
+Scores for class 4
+Scores for class 5
+Scores for class 6
+Scores for class 7
+Scores for class 8
+  Name            Size                   Bytes  Class     Attributes
+
+  Ftest       79309x44                27916768  double              
+  netall          8x1                177102792  cell                
+  scores          8x79309              5075776  double              
+
+Setting up the confusion matrix
+>> 

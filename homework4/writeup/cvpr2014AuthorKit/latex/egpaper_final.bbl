@@ -1,0 +1,43 @@
+\begin{thebibliography}{1}\itemsep=-1pt
+
+\bibitem{vlfeat}
+Vlfeat.
+\newblock \url{http://www.vlfeat.org/}.
+\newblock MATLAB and C Library used for SIFT.
+
+\bibitem{Boutell20041757}
+M.~R. Boutell, J.~Luo, X.~Shen, and C.~M. Brown.
+\newblock Learning multi-label scene classification.
+\newblock {\em Pattern Recognition}, 37(9):1757 -- 1771, 2004.
+
+\bibitem{gould}
+S.~Gould, R.~Fulton, and D.~Koller.
+\newblock Decomposing a scene into geometric and semantically consistent
+  regions.
+\newblock In {\em Computer Vision, 2009 IEEE 12th International Conference on},
+  pages 1--8, Sept 2009.
+
+\bibitem{hoiem}
+D.~Hoiem, A.~Efros, and M.~Hebert.
+\newblock Recovering surface layout from an image.
+\newblock {\em International Journal of Computer Vision}, 75(1):151--172, 2007.
+
+\bibitem{luo}
+H.-L. Luo and L.-P. Du.
+\newblock A scene classification method based on ensemble svm results.
+\newblock In {\em Wavelet Analysis and Pattern Recognition (ICWAPR), 2012
+  International Conference on}, pages 186--190, July 2012.
+
+\bibitem{nwogu}
+I.~Nwogu, Y.~Zhou, and C.~Brown.
+\newblock An ontology for generating descriptions about natural outdoor scenes.
+\newblock In {\em Computer Vision Workshops (ICCV Workshops), 2011 IEEE
+  International Conference on}, pages 656--663, Nov 2011.
+
+\bibitem{xiao}
+J.~Xiao and L.~Quan.
+\newblock Multiple view semantic segmentation for street view images.
+\newblock In {\em Computer Vision, 2009 IEEE 12th International Conference on},
+  pages 686--693, Sept 2009.
+
+\end{thebibliography}

@@ -1,0 +1,27 @@
+>> clear
+>> % Testing branch x-y-positions
+>> runfile
+Extracting global spix information
+Setting up the spix for the training dataset
+DEBUG_SUBSET: selecting 50000 of 316824.
+Running the SVM fit model process
+Completed training ***remember to save workspace***
+Setting up the spix for the testing dataset
+Using the SVM models to predict scores for test data
+Scores for class 1
+Scores for class 2
+Scores for class 3
+Scores for class 4
+Scores for class 5
+Scores for class 6
+Scores for class 7
+Scores for class 8
+  Name            Size                   Bytes  Class     Attributes
+
+  Ftest       79309x38                24109936  double              
+  netall          8x1                160273000  cell                
+  scores          8x79309              5075776  double              
+
+Setting up the confusion matrix
+Elapsed time: 146.58 minutes
+>> 

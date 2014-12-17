@@ -1,0 +1,31 @@
+Features for image 709
+Features for image 710
+Features for image 711
+Features for image 712
+Features for image 713
+Features for image 714
+Features for image 715
+Extracting global spix information
+Setting up the spix for the training dataset
+DEBUG.SP_SUBSET: selecting 50000 of 316824.
+Running the SVM fit model process
+Completed training ***remember to save workspace***
+Setting up the spix for the testing dataset
+Using the SVM models to predict scores for test data
+Scores for class 1
+Scores for class 2
+Scores for class 3
+Scores for class 4
+Scores for class 5
+Scores for class 6
+Scores for class 7
+Scores for class 8
+  Name            Size                   Bytes  Class     Attributes
+
+  Ftest       79309x44                27916768  double              
+  netall          8x1                190360776  cell                
+  scores          8x79309              5075776  double              
+
+Setting up the confusion matrix
+Elapsed time: 217.33 minutes
+>> 
